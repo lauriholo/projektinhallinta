@@ -1,0 +1,135 @@
+.project-view {
+  padding: 1rem 0;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.project-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.project-header p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  margin: 0.75rem 0 0 0;
+  max-width: 600px;
+}
+
+.task-list {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.task-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-list th {
+  background-color: var(--bg);
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-list td {
+  padding: 1.25rem 1.5rem;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.task-list tr:last-child td {
+  border-bottom: none;
+}
+
+.task-list tr:hover {
+  background-color: #f8fafc;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.status-valmis {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-työn_alla {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-odottaa {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-icon {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: var(--text-muted);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.btn-icon:hover {
+  background-color: var(--bg);
+  color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.btn-icon.btn-delete:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background-color: #fef2f2;
+}
+
+@media (max-width: 640px) {
+  .project-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .project-header h2 {
+    font-size: 1.75rem;
+  }
+}
