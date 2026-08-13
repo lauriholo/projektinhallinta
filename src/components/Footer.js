@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer>
-      <p>© 2025 Projektinhallintasovellus</p>
+      <p>© 2026 Projektinhallinta</p>
     </footer>
   );
 };

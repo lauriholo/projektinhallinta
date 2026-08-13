@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header>
-      <h1>Projektinhallintasovellus</h1>
+      <h1>Projektinhallinta</h1>
     </header>
   );
 };
