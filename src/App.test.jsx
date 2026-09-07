@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
@@ -11,9 +12,9 @@ import {
 beforeEach(() => {
   localStorage.clear();
   window.history.replaceState(null, '', '/');
-  jest.spyOn(window, 'confirm').mockReturnValue(true);
+  vi.spyOn(window, 'confirm').mockReturnValue(true);
 });
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => vi.restoreAllMocks());
 function navigate(hash) {
   act(() => {
     window.history.replaceState(null, '', hash);
@@ -170,7 +171,7 @@ test('preserves corrupt storage and reports write failures', () => {
   expect(localStorage.getItem(STORAGE_KEY)).toBe('broken');
   view.unmount();
   localStorage.clear();
-  jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
     throw new Error('quota');
   });
   render(<App />);
