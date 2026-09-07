@@ -1,6 +1,6 @@
 export const users = [
-  { id: 1, name: 'Lauri K.' },
-  { id: 2, name: 'Anna M.' },
+  { id: 1, name: 'Testaaja 1.' },
+  { id: 2, name: 'Testaaja 2.' },
 ];
 
 export const projects = [
