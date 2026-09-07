@@ -1,76 +1,151 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { STATUSES } from '../services/projectData';
 import './ProjectView.css';
 
-const ProjectView = ({ projectId, projects, tasks, users, onAddTask, onEditTask, onDeleteTask }) => {
-  const project = projects.find(p => p.id === projectId);
-  const projectTasks = tasks.filter(t => t.projectId === projectId);
-
-  const getAssigneeName = (assigneeId) => {
-    const user = users.find(u => u.id === assigneeId);
-    return user ? user.name : 'Ei määritetty';
-  };
-
-  if (!project) {
-    return <div>Projektia ei löytynyt.</div>;
-  }
-
+export default function ProjectView({
+  project,
+  tasks,
+  users,
+  onAddTask,
+  onEditTask,
+  onDeleteTask,
+  onEditProject,
+  onArchive,
+}) {
+  const [query, setQuery] = useState('');
+  const [status, setStatus] = useState('');
+  const [assignee, setAssignee] = useState('');
+  const ownTasks = tasks.filter((task) => task.projectId === project.id);
+  const filtered = ownTasks.filter(
+    (task) =>
+      task.title
+        .toLocaleLowerCase('fi')
+        .includes(query.trim().toLocaleLowerCase('fi')) &&
+      (!status || task.status === status) &&
+      (!assignee ||
+        (assignee === 'none'
+          ? task.assigneeId == null
+          : task.assigneeId === Number(assignee))),
+  );
   return (
     <div className="project-view">
       <div className="project-header">
         <div>
           <h2>{project.name}</h2>
           <p>{project.description}</p>
+          {project.archived && <p>Arkistoitu projekti</p>}
         </div>
-        <button onClick={onAddTask} className="btn-primary">
-          + Lisää uusi tehtävä
-        </button>
+        <div className="project-controls">
+          <button className="btn-cancel" onClick={onEditProject}>
+            Muokkaa projektia
+          </button>
+          <button className="btn-cancel" onClick={onArchive}>
+            {project.archived ? 'Palauta aktiiviseksi' : 'Arkistoi projekti'}
+          </button>
+          <button className="btn-primary" onClick={onAddTask}>
+            + Lisää uusi tehtävä
+          </button>
+        </div>
       </div>
-
-      <div className="task-list">
+      <div className="filters">
+        <label>
+          Hae tehtäviä
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+        <label>
+          Suodata tilan mukaan
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="">Kaikki tilat</option>
+            {Object.entries(STATUSES).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Suodata vastuuhenkilön mukaan
+          <select
+            value={assignee}
+            onChange={(e) => setAssignee(e.target.value)}
+          >
+            <option value="">Kaikki vastuuhenkilöt</option>
+            <option value="none">Ei määritetty</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <p role="status">
+        Näytetään {filtered.length} / {ownTasks.length} tehtävää
+      </p>
+      <div
+        className="task-list"
+        role="region"
+        aria-label="Projektin tehtävät"
+        tabIndex={0}
+      >
         <table>
           <thead>
             <tr>
-              <th>Tehtävä</th>
-              <th>Vastuuhenkilö</th>
-              <th>Tila</th>
-              <th style={{ textAlign: 'right' }}>Toiminnot</th>
+              <th scope="col">Tehtävä</th>
+              <th scope="col">Vastuuhenkilö</th>
+              <th scope="col">Tila</th>
+              <th scope="col">Toiminnot</th>
             </tr>
           </thead>
           <tbody>
-            {projectTasks.length === 0 ? (
-              <tr>
-                <td colSpan="4" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-                  Ei tehtäviä vielä. Aloita lisäämällä uusi tehtävä!
+            {filtered.map((task) => (
+              <tr key={task.id}>
+                <td>{task.title}</td>
+                <td>
+                  {users.find((user) => user.id === task.assigneeId)?.name ||
+                    'Ei määritetty'}
+                </td>
+                <td>
+                  <span className={`status status-${task.status}`}>
+                    {STATUSES[task.status]}
+                  </span>
+                </td>
+                <td>
+                  <div className="task-actions">
+                    <button
+                      className="btn-icon"
+                      aria-label={`Muokkaa tehtävää: ${task.title}`}
+                      onClick={() => onEditTask(task)}
+                    >
+                      Muokkaa
+                    </button>
+                    <button
+                      className="btn-icon btn-delete"
+                      aria-label={`Poista tehtävä: ${task.title}`}
+                      onClick={() => onDeleteTask(task.id)}
+                    >
+                      Poista
+                    </button>
+                  </div>
                 </td>
               </tr>
-            ) : (
-              projectTasks.map(task => (
-                <tr key={task.id}>
-                  <td style={{ fontWeight: '600' }}>{task.title}</td>
-                  <td>{getAssigneeName(task.assigneeId)}</td>
-                  <td>
-                    <span className={`status status-${task.status.toLowerCase().replace(' ', '_')}`}>
-                      {task.status}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="task-actions" style={{ justifyContent: 'flex-end' }}>
-                      <button onClick={() => onEditTask(task)} className="btn-icon" title="Muokkaa">
-                        ✎
-                      </button>
-                      <button onClick={() => onDeleteTask(task.id)} className="btn-icon btn-delete" title="Poista">
-                        🗑
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
+            ))}
+            {!filtered.length && (
+              <tr>
+                <td colSpan={4}>
+                  {ownTasks.length
+                    ? 'Hakuehdoilla ei löytynyt tehtäviä.'
+                    : 'Ei tehtäviä vielä. Aloita lisäämällä uusi tehtävä!'}
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
     </div>
   );
-};
-
-export default ProjectView;
+}

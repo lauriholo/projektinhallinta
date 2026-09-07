@@ -1,60 +1,57 @@
 import React, { useState } from 'react';
-import './ProjectModal.css';
+import Modal from './Modal';
 
-const ProjectModal = ({ isOpen, onClose, onSave }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-
-  if (!isOpen) return null;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave({ name, description });
-    // Tyhjennä tallennuksen jälkeen
-    setName('');
-    setDescription('');
-  };
-
-  const handleClose = () => {
-    // Tyhjennä jos ei tallenneta
-    setName('');
-    setDescription('');
-    onClose();
-  };
-
+export default function ProjectModal({ project, onClose, onSave }) {
+  const [name, setName] = useState(project?.name || '');
+  const [description, setDescription] = useState(project?.description || '');
+  const [error, setError] = useState('');
+  function submit(event) {
+    event.preventDefault();
+    if (!name.trim()) {
+      setError('Anna projektin nimi.');
+      return;
+    }
+    onSave({ name: name.trim(), description: description.trim() });
+  }
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Luo uusi projekti</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Projektin nimi</label>
-            <input
-              type="text"
-              id="name"
-              placeholder=""
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description">Kuvaus</label>
-            <textarea
-              id="description"
-              placeholder="Kuvaile projektin tavoitteita..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="modal-actions">
-            <button type="button" onClick={handleClose} className="btn-cancel">Peruuta</button>
-            <button type="submit" className="btn-save">Tallenna projekti</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Modal
+      title={project ? 'Muokkaa projektia' : 'Luo uusi projekti'}
+      onClose={onClose}
+    >
+      <form onSubmit={submit}>
+        <div className="form-group">
+          <label htmlFor="project-name">Projektin nimi</label>
+          <input
+            id="project-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            maxLength={160}
+            aria-invalid={!!error}
+            aria-describedby={error ? 'project-error' : undefined}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="project-description">Kuvaus</label>
+          <textarea
+            id="project-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            maxLength={2000}
+          />
+        </div>
+        {error && (
+          <p id="project-error" role="alert">
+            {error}
+          </p>
+        )}
+        <div className="modal-actions">
+          <button type="button" className="btn-cancel" onClick={onClose}>
+            Peruuta
+          </button>
+          <button className="btn-save">Tallenna projekti</button>
+        </div>
+      </form>
+    </Modal>
   );
-};
-
-export default ProjectModal;
+}

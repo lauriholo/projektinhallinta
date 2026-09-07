@@ -1,71 +1,31 @@
-# Projektinhallinta (Demo)
+# Projektinhallinta
 
-Tämä on kevyt, selainpohjainen projektinhallintasovelluksen demoversio. Sovellus on suunnattu käyttäjille, jotka haluavat kokeilla projektinhallintatyökalua nopeasti ja ilman rekisteröitymistä.
+Reactilla toteutettu projektinhallintademo. Voit luoda ja muokata projekteja, arkistoida ja palauttaa niitä sekä lisätä, muokata ja poistaa tehtäviä.
 
----
+## Käyttö
 
-### Johdanto
-Sovellus on toteutettu Reactilla, ja se demonstroi projektinhallinnan ydintoiminnallisuuksia. Koska kyseessä on demoversio, tietoja ei tallenneta pysyvästi tietokantaan, vaan sovellus käyttää esimerkkidataa (mock-data).
+- Projektikortit näyttävät tehtävien määrän ja valmistumisasteen.
+- Tehtäviä voi hakea nimellä ja suodattaa tilan tai vastuuhenkilön mukaan.
+- Projektin osoitteen voi kopioida. Linkki toimii samat tiedot sisältävässä selaimessa; tietoja ei jaeta käyttäjien välillä.
+- Muutokset tallennetaan selaimen localStorageen. Tallennus ei ole varmuuskopio: selaintietojen tyhjennys poistaa tiedot.
+- Palauta esimerkkidata korvaa tämän selaimen projektit ja tehtävät vahvistuksen jälkeen.
+- Arkistointi piilottaa projektin aktiivisten listasta. Arkistoitua projektia voi edelleen muokata ja sen voi palauttaa aktiiviseksi.
+- Dialogit tukevat näppäimistöä, Escape-sulkemista ja fokuksen palauttamista.
 
-### Tärkeimmät ominaisuudet
-*   **Projektinäkymä (Dashboard):** Listaus kaikista käynnissä olevista projekteista.
-*   **Projektin hallinta:** Uusien projektien luominen.
-*   **Tehtävien hallinta:** Tehtävien lisääminen, muokkaaminen ja poistaminen projektikohtaisesti.
-*   **Tehtävien tila:** Visuaalinen seuranta tehtävien edistymisestä (Valmis, Kesken, Aloittamatta).
-*   **Moderni käyttöliittymä:** Responsiivinen ja puhdas ulkoasu, joka hyödyntää nykyaikaisia CSS-ominaisuuksia.
+## Kehitys
 
-### Teknologiat
-*   **React 19** - Käyttöliittymäkirjasto
-*   **CSS Modules / Vanilla CSS** - Tyylittely
-*   **JavaScript (ES6+)** - Sovelluslogiikka
+Asenna Node.js ja suorita:
 
-### Asennus ja käynnistys
-Varmista, että koneellesi on asennettu [Node.js](https://nodejs.org/).
+```sh
+npm ci
+npm start
+```
 
-1.  Lataa projektin tiedostot.
-2.  Asenna riippuvuudet projektin juurihakemistossa:
-    ```bash
-    npm install
-    ```
-3.  Käynnistä kehityspalvelin:
-    ```bash
-    npm start
-    ```
-4.  Avaa selain osoitteeseen [http://localhost:3000](http://localhost:3000).
+Sovellus avautuu osoitteeseen http://localhost:3000.
 
----
+```sh
+npm test -- --watchAll=false --runInBand
+npm run build
+```
 
-### Introduction
-This is a lightweight, browser-based project management application demo. It is designed for users who want to try out a project management tool quickly without registration.
-
-The application is built with React and demonstrates core project management features. As this is a demo, data is not saved permanently but uses static mock data.
-
-### Key Features
-*   **Dashboard View:** A listing of all ongoing projects.
-*   **Project Management:** Create new projects.
-*   **Task Management:** Add, edit, and delete tasks within each project.
-*   **Task Status:** Visual tracking of task progress (Completed, In Progress, Pending).
-*   **Modern UI:** Responsive and clean design utilizing modern CSS features.
-
-### Technologies
-*   **React 19** - UI Library
-*   **CSS Modules / Vanilla CSS** - Styling
-*   **JavaScript (ES6+)** - Application logic
-
-### Installation and Setup
-Make sure you have [Node.js](https://nodejs.org/) installed.
-
-1.  Download the project files.
-2.  Install dependencies in the project root:
-    ```bash
-    npm install
-    ```
-3.  Start the development server:
-    ```bash
-    npm start
-    ```
-4.  Open your browser at [http://localhost:3000](http://localhost:3000).
-
----
-
-© 2025 Projektinhallinta - Lauri H.
+Testit kattavat ydintoiminnot, suodatuksen, selaintallennuksen, arkistoinnin ja tyhjän tehtävälistan tunnisteet. Käyttöliittymä käyttää Reactia ja tavallista CSS:ää. Palvelinta, kirjautumista tai monen käyttäjän yhteiskäyttöä ei ole toteutettu.

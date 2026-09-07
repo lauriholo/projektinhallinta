@@ -12,7 +12,8 @@
   --danger: #ef4444;
   --radius: 12px;
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -84,7 +85,43 @@ button {
   cursor: pointer;
 }
 
-h2, h3 {
+h2,
+h3 {
   color: var(--text);
   margin-top: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+.back-button {
+  width: fit-content;
+  text-decoration: none;
+}
+.demo-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+@media (max-width: 640px) {
+  main {
+    padding: 1rem;
+  }
+  header {
+    padding: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
