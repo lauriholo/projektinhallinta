@@ -128,8 +128,49 @@
     align-items: stretch;
     gap: 1.5rem;
   }
-  
+
   .project-header h2 {
     font-size: 1.75rem;
   }
+}
+
+.task-list {
+  overflow-x: auto;
+}
+.task-list table {
+  min-width: 600px;
+}
+.task-list td:first-child {
+  overflow-wrap: anywhere;
+  max-width: 320px;
+}
+.project-header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.project-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.filters label {
+  flex: 1 1 180px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.filters input,
+.filters select {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font: inherit;
 }
